@@ -1,0 +1,53 @@
+    {% include '_sponsors.twig' %}
+</main>
+<footer class="site-footer">
+    <div class="container">
+        <span class="copyright">&copy; 2014 PHPem - PHP East Midlands. Site design by <a href="http://spacecraft.co.uk">Spacecraft</a>. Developed by <a href="http://www.vivait.co.uk">Viva IT</a>.</span>
+    </div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-56587580-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>
+{#
+<!-- Footer -->
+        <footer class="large-12 columns">
+            <hr />
+            <div class="large-6 columns">
+                <p>{{ __("This website is <a href='%url%' target='_blank' title='Sophisticated, lightweight & simple CMS'>Built with Bolt</a>.",{'%url%':'http://bolt.cm'}) }}
+                </p>
+            </div>
+            <div class="large-6 columns">
+                <ul class="inline-list">
+                    {{ menu() }}
+                </ul>
+            </div>
+        </footer>
+    </div>
+</div>
+
+    <script src="{{ paths.theme }}javascripts/jquery-2.1.0.min.js"></script>
+    <script src="{{ paths.theme }}javascripts/foundation.min.js"></script>
+    <script src="{{ paths.theme }}javascripts/modernizr.js"></script>
+
+    { # Bolt comes with Fancybox, as it's used in the backend. We can use it here, or
+       you just swap it out for the image-viewing script of your choice. Or delete it altogether # }
+    <script src="{{ paths.app }}view/lib/fancybox/jquery.fancybox.pack.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ paths.app }}view/lib/fancybox/jquery.fancybox.css">
+
+    <script src="{{ paths.theme }}javascripts/app.js"></script>
+
+
+</body>
+</html>
+#}

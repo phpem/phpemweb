@@ -1,0 +1,26 @@
+<section class="events double">
+    <h1>{{ __("Upcoming Events") }}</h1>
+    <ul class="item-list">
+        {% setcontent records = 'events' where { eventtime: '>today' } limit '3' orderby 'eventtime' %}
+        {% if records is empty %}
+            {% setcontent records = 'events' limit 3 orderby '-eventtime' %}
+        {% endif %}
+        {% for record in records %}
+            {% set eventdate1 = record.eventtime|date("j") %}
+            {% set eventdate2 = record.eventtime|date("S") %}
+            {% set eventdate3 = record.eventtime|date("F Y") %}
+            <li>
+                <h2><a href="{{ record.link }}">{{ record.title }}</a></h2>
+                <small class="date">{{ eventdate1 }}<sup>{{ eventdate2 }}</sup> {{ eventdate3 }} at {{ record.eventtime|date('g:i A') }}</small>
+                {{ record.teaser }}
+
+                <a href="{{ record.link }}">{{ __("Read more") }}</a></p>
+            </li>
+        {% else %}
+            <li>
+                <h2>{{ __("There are no events to show") }}</h2>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="/events" class="button">{{ __("See more events") }}</a>
+</section>

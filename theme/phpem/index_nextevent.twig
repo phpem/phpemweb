@@ -1,0 +1,26 @@
+{% setcontent nextevent = 'events' limit 1 where { eventtime: '>today'} orderby 'eventtime' returnsingle %}
+
+{% if nextevent is empty %}
+    <h2>{{ __("No scheduled events") }}</h2>
+    <div class="description">
+        <p>
+            <strong class="date">{{ __("There are currently no new events scheduled") }}</strong>
+        </p>
+        <p>
+            {{ __("Check back later for more events") }}
+        </p>
+    </div>
+{% else %}
+    {% set eventdate1 = nextevent.eventtime|date("l j") %}
+    {% set eventdate2 = nextevent.eventtime|date("S") %}
+    {% set eventdate3 = nextevent.eventtime|date("F Y") %}
+
+    <h2><a href="{{ nextevent.link }}">{{ nextevent.title }}</a></h2>
+    <div class="description">
+        <p>
+            <strong class="date">{{ eventdate1 }}<sup>{{ eventdate2 }}</sup> {{ eventdate3 }}</strong>
+        </p>
+        {{ nextevent.teaser }}
+        <a href="{{ nextevent.link }}" class="button button__standout">{{ __("Find out more") }}</a>
+    </div>
+{% endif %}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="{{ htmllang() }}"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="{{ htmllang() }}"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="{{ htmllang() }}"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="{{ htmllang() }}"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>
+        {{ app.config.get('general/sitename') }}
+        {% if record.title is defined %} | {{ record.title|striptags }}{% endif %}
+        {% if record.title is not defined and app.config.get('general/payoff') %} | {{ app.config.get('general/payoff') }}{% endif %}
+    </title>
+
+    <link href="{{ paths.theme }}favicon.ico" rel="shortcut icon">
+
+    <link href="http://fonts.googleapis.com/css?family=Muli:300,400,300italic,400italic%7cPermanent+Marker" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ paths.theme }}css/normalize.css">
+    <link rel="stylesheet" href="{{ paths.theme }}css/app.css">
+
+    {#<!-- A variable from the theme's config: {{ theme.foo }} -->#}
+
+</head>
+<body>
+
+<header class="site-header">
+    <div class="container">
+        <div class="logo">
+            <a href="{{ paths.root }}">{{ app.config.get('general/sitename') }}</a>
+        </div>
+        <nav class="site-nav">
+            <ul class="item-list item-list__inline">
+                {{ menu('main', '_sub_menu.twig') }}
+            </ul>
+        </nav>
+    </div>
+</header>
+<main class="site-main">

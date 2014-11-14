@@ -1,0 +1,172 @@
+{% include '_header.twig' %}
+
+    <section class="featured-event">
+        <div class="container">
+            <h1>{{ __("Next event") }}</h1>
+        </div>
+        <div class="event" style="background-image: url('{{ paths.theme }}images/event-image.jpg');">
+            <div class="container">
+                {% include 'index_nextevent.twig' %}
+            </div>
+        </div>
+    </section>
+    <section class="notice">
+        <h1>{{ __("Meets") }}</h1>
+        <div class="container">
+            <p>Meeting on the <strong>first Thursday</strong> of every month at <strong>7pm</strong>.</p>
+            <p>Our usual venue is: <strong>De Montfort University, Gateway House, LE1 9BH</strong></p>
+        </div>
+    </section>
+    <div class="info">
+        <div class="container">
+
+            {% include "index_events.twig" %}
+
+            {#
+            <section class="blog">
+                <h1>Blog</h1>
+                <ul class="item-list">
+                    <li>
+                        <h2><a href="#">Practical Message Queueing Using RabbitMQ</a></h2>
+                        <small class="date">3rd July 2014 by <a href="#">James Titcumb</a></small>
+                        <p>RabbitMQ is a message broker - an application that allows communication between applications by way of a message queuing system. In this &hellip; <a href="#">Read more</a></p>
+                    </li>
+                    <li>
+                        <h2><a href="#">Pentesting (for fun and profit)</a></h2>
+                        <small class="date">5th June 2014 by <a href="#">Clinton Ingrams</a></small>
+                        <p>Pentesting of web applications before they are launched should be a no-brainer, but too many organisations would seem to be happy to take &hellip; <a href="#">Read more</a></p>
+                    </li>
+                </ul>
+                <a class="button">Read more blog posts</a>
+            </section>
+            #}
+
+            <section class="tweets">
+                <h1>{{ __("Tweets") }}</h1>
+                <ul class="item-list">
+                    <li>
+                        <p>Just a day to go for the November meetup by <a href="#">@lornajane</a> on New Wave PHP <a href="#">http://www.meetup.com/ugPHPem/events/211696112/&hellip;</a> <a href="#">#Leicester</a> <a href="#">#EastMidlands</a></p>
+                        <small class="date"><a href="#">10:54am</a> on 5th November 2014</small>
+                    </li>
+                    <li>
+                        <p>On November 6th .<a href="#">@lornajane</a> will be doing a talk on New Wave PHP <a href="#">http://www.meetup.com/ugPHPem/events/211696112/&hellip;</a></p>
+                        <small class="date"><a href="#">11:06am</a> on 16th October 2014</small>
+                    </li>
+                    <li>
+                        <p>We have a new logo! Curtesy of <a href="#">@vivaitltd</a> Thanks guys :)</p>
+                        <small class="date"><a href="#">12:16pm</a> on 15th October 2014</small>
+                    </li>
+                </ul>
+                <a class="button" href="https://twitter.com/phpem">Follow @PHPem</a>
+            </section>
+
+        </div>
+    </div>
+    <div class="supplemental">
+        <div class="container">
+            <section class="upcoming-events">
+                <h1>{{ __("Upcoming events") }}</h1>
+                <h2>{{ "now"|date("F Y") }}</h2>
+
+                {% setcontent events = 'events' where { status: 'published', eventtime: '>= first day of this month 00:00 && < first day of next month 00:00' } %}
+                {{ eventtable(events) }}
+
+                <a href="/events" class="button center">{{ __("See all events") }}</a>
+            </section>
+        </div>
+    </div>
+
+{#
+
+<!-- Main Page Content and Sidebar -->
+
+    <!-- Main Blog Content -->
+    <div class="large-8 columns">
+
+        <article>
+            {% if record is defined %}
+
+                {# make the 'home' variable refer to the current record, which is set by the
+                   user in config.yml # }
+                {% set home = record %}
+                {% if home.title is defined and home.title is not empty %}
+                    <h1>{{ home.title }}</h1>
+                {% endif %}
+
+                {% if home.image is defined and home.image is not empty %}
+                    <div class="large-5 columns imageholder">
+                        <a href="{{ image(home.image) }}">
+                            <img src="{{ thumbnail(home.image, 400, 260) }}">
+                        </a>
+                    </div>
+                {% endif %}
+
+                {# display something introduction-like.. # }
+                {% if home.introduction is defined and home.introduction is not empty %}
+                    {{ home.introduction }}
+                {% elseif home.teaser is defined and home.teaser is not empty %}
+                    {{ home.teaser }}
+                {% elseif home is not empty %}
+                    <p>{{ home.excerpt(500) }}</p>
+                {% endif %}
+
+                {% if home.link is defined and home.link is not empty %}
+                    <a href="{{ home.link }}">Read more &raquo;</a>
+                {% endif %}
+
+                {# Tip: If you're curious what all of the available fields of this
+                   record contain, just use {{ print(home) }}, to print it all. # }
+
+            {% else %}
+                <p>
+                    {{ __('Content for home not found!') }} 
+                    {{ __("You should set 'homepage:' in your 'app/config/config.yml' to an existing record. Make sure that the content is published, otherwise it will not be shown.") }}
+                </p>
+            {% endif %}
+        </article>
+
+        <hr>
+
+        <h4>{{ __('Latest entries') }}</h4>
+
+        {# Here we use 'setcontent' to set the variable 'records' to "entries/latest/6",
+           which is shorthand for "the 6 latest records in Entries. Note that we are
+           requesting multiple entries, so 'records' will be an array containing each
+           of the entries. That's why we use the 'for' loop to iterate over them all. # }
+        {% setcontent records = "entries/latest/6" allowpaging %}
+        {% for record in records %}
+            <article>
+
+                {% if record.image!="" %}
+                    <div class="large-4 imageholder">
+                        <a href="{{ image(record.image) }}">
+                            <img src="{{ thumbnail(record.image, 400, 260) }}">
+                        </a>
+                    </div>
+                {% endif %}
+
+                <h3><a href="{{ record.link }}">{{ record.title }}</a></h3>
+
+                <p>{{ record.excerpt(220) }}</p>
+
+            </article>
+
+            <hr>
+
+        {% endfor %}
+
+        {{ pager() }}
+
+
+    </div>
+
+    <!-- End Main Content -->
+    {# include the sidebar. The include tag can be used to break up your templates in logical parts,
+       and re-use them across different templates/pages. # }
+    {% include '_aside.twig' %}
+
+<!-- End Main Content and Sidebar -->
+
+#}
+
+{% include '_footer.twig' %}

@@ -1,0 +1,73 @@
+{% include '_header.twig' %}
+
+    {# This template is used for 'listings': Generic pages that list a number of
+       records from a certain contenttype. These records are available as an array
+       called 'records'. In the for-loop below, we iterate over the records that
+       are on this page. It can be used for overview pages like 'all entries', or
+       'all records tagged with kittens' as well as search result. #}
+
+    {# if used for listing a taxonomy: #}
+    {% if taxonomytype is defined %}
+        {% if taxonomy.options[slug] is defined %}
+            {% include '_pageheader.twig' with { title: __('Overview for') + taxonomy.options[slug] } %}
+        {% else %}
+            {% include '_pageheader.twig' with { title: __('Overview for') + slug } %}
+        {% endif %}
+        {# taxonomies are fetched unordered by design. If we specified an order in config.yml, sort them here: #}
+        {% set records = records|order(app.config.get('general/listing_sort')) %}
+    {% endif %}
+
+    {# This is also the default template for searchresults. If 'search' is defined,
+       we display an appropriate title. The 'records' array contains all of the
+       records matching the current query. If there are no results, the
+       code in the 'else' part of the for-loop is used. #}
+    {% if search is defined %}
+        {% include '_pageheader.twig' with {title: __('Search results for <b> %search% </b>.', { '%search%': search|escape }) } %}
+    {% endif %}
+
+    {% if search is not defined and taxonomytype is not defined %}
+        {% if slug is defined %}
+            {% include '_pageheader.twig' with { title: slug } %}
+        {% else %}
+            {% include '_pageheader.twig' with { title: contenttype } %}
+        {% endif %}
+    {% endif %}
+
+    <section class="page-content">
+        <div class="container">
+
+            <div class="image-list">
+            {% for record in records %}
+                <a class="item" href="{{ record.link }}"{% if record.image is defined %} style="background-image:url({{ image(record.image) }})"{% endif %}>
+                    {#<img src="{{ image(record.image) }}">#}
+                    {% if record.image is empty %}
+                        <h2>{{ record.title }}</h2>
+                    {% else %}
+                        <span>{{ record.title }}</span>
+                    {% endif %}
+
+                    {#{% if record.image!="" %}#}
+                        {#<a href="{{ image(record.image) }}">#}
+                            {#<img src="{{ thumbnail(record.image, 400, 260) }}">#}
+                        {#</a>#}
+                    {#{% endif %}#}
+                </a>
+            {% endfor %}
+            </div>
+
+            {# If there are more records than will fit on one page, the pager is shown. #}
+            {{ pager() }}
+
+            </div>
+        </section>
+    </div>
+
+    <!-- End Main Content -->
+
+    {#{% include '_aside.twig' %}#}
+
+<!-- End Main Content and Sidebar -->
+
+
+
+{% include '_footer.twig' %}
