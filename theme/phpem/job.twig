@@ -1,0 +1,50 @@
+{% include '_header.twig' %}
+
+    {% include '_pageheader.twig' with { title: record.title } %}
+
+    <section class="page-content">
+        <div class="container">
+            <article>
+                {% if record.name is not empty %}
+                    <h2>{{ record.name }}</h2>
+                {% endif %}
+
+                {# display something introduction-like.. #}
+                {% if record.introduction %}
+                {{ record.introduction }}
+                {% elseif record.teaser %}
+                    {{ record.teaser }}
+                {% else %}
+                    <p>{{ record.excerpt(1000) }}</p>
+                {% endif %}
+
+                {# if the entry has a video, display it. #}
+                {% if record.video is not empty %}
+                    {{ record.video.responsive }}
+                {% endif %}
+
+                {{ record.description }}
+
+                {% if record.contact is not empty and record.contact != "http://" %}
+                <p>
+                    <strong>{{ __("Enquire About This Job:") }}</strong><br>
+                    <a href="{{ record.contact }}">{{ record.contact }}</a>
+                </p>
+                {% endif %}
+
+                {% include '_recordfooter.twig' with {record: record} %}
+
+            </article>
+
+        </div>
+    </section>
+
+    <!-- End Main Content -->
+
+    {#{% include '_aside.twig' %}#}
+
+<!-- End Main Content and Sidebar -->
+
+
+
+{% include '_footer.twig' %}
