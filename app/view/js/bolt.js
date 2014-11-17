@@ -239,6 +239,8 @@ CKEDITOR.editorConfig = function( config ) {
     config.autoGrow_bottomSpace = 24;
     config.removePlugins = 'elementspath';
     config.resize_dir = 'vertical';
+    config.forcePasteAsPlainText = true;
+
 
     if (wysiwyg.filebrowser) {
         if (wysiwyg.filebrowser.browseUrl) {
