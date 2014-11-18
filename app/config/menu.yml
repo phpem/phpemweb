@@ -1,0 +1,16 @@
+# This file defines the menus on the website. See the documentation for
+# details: http://docs.bolt.cm/menus
+
+main:
+  - label: About
+    path: about
+    class: first
+  - label: Events
+    path: events/
+  - label: Community
+    path: community/
+  - label: Resources
+    path: resources/
+  - label: Jobs
+    path: jobs/
+    class: last

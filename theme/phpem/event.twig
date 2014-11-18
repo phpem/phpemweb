@@ -4,34 +4,37 @@
 
 <section class="page-content">
     <div class="container">
-        <div class="event-details">
-            <ul>
-                <li class="date">
-                    {{ record.eventtime|date('jS M Y') }}<br />
-                    {{ record.eventtime|date('g:i A') }}
-                </li>
-                <li>
-                    <strong>{{ __("Location:") }}</strong><br>
-                    {{ record.location }}
-                </li>
-                <li>
-                    <strong>{{ __("Book your spot:") }}</strong><br>
-                    <a href="{{ record.booking }}">{{ record.booking|slice(0,40) }}…</a>
-                </li>
-            </ul>
+        {% if record.image is not empty %}
+        <div class="event-info clearfix">
+            <div class="event-image" style="background-image:url({{ image(record.image) }})"></div>
+        {% endif %}
+            <div class="event-details">
+                <ul>
+                    <li class="date">
+                        {{ record.eventtime|date('jS M Y') }}<br />
+                        {{ record.eventtime|date('g:i A') }}
+                    </li>
+                    {% if record.location is not empty %}
+                    <li>
+                        <strong>{{ __("Location:") }}</strong><br>
+                        {{ record.location }}
+                    </li>
+                    {% endif %}
+                    {% if record.booking is not empty %}
+                    <li>
+                        <strong>{{ __("Book your spot:") }}</strong><br>
+                        <a href="{{ record.booking }}">{{ record.booking }}</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        {% if record.image is not empty %}
         </div>
+        {% endif %}
 
         <article>
-            {% if record.subtitle %}
+            {% if record.subtitle is not empty %}
                 <h2>{{ record.subtitle }}</h2>
-            {% endif %}
-
-            {% if record.image!="" %}
-                <div class="large-4 columns imageholder">
-                    <a href="{{ image(record.image) }}">
-                        <img src="{{ thumbnail(record.image, 400, 260) }}">
-                    </a>
-                </div>
             {% endif %}
 
             {# display something introduction-like.. #}
@@ -67,8 +70,11 @@
 
         </article>
 
-        <div style="clear:both"></div>
+        <div class="clear"></div>
+
+        {% if record.overridelocation is not empty %}
         <iframe width="100%" height="450" frameborder="0" style="border:0;margin-top:2em;" src="https://www.google.com/maps/embed/v1/place?q={{ (record.overridelocation|default(record.location))|url_encode }}&key=AIzaSyBum-d_x7_qic3r-35QIowIBNibt_gA8ls"></iframe>
+        {% endif %}
 
     </div>
 </section>
